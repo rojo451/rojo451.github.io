@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>渐变幻灯片</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    .wrapper {
+      width: 960px;
+      height: 640px;
+      margin: 150px auto;
+      overflow: hidden;
+      position: relative;
+      user-select: none;
+    }
+
+    .inner {
+      font-size: 0px;
+      width: 5760px;
+      height: 640px;
+      /*position: absolute;*/
+      /*top: 0px;*/
+      /*margin-left: 0px;*/
+      transition: margin 0.8s;
+      user-select: none;
+    }
+
+    .inner img {
+      width: 960px;
+      height: 640px;
+      display: inline-block;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      opacity: 0;
+      transition: opacity 1.6s;
+    }
+
+    .inner .show {
+      opacity: 1;
+      transition: opacity 1.6s;
+    }
+
+    .position {
+      position: relative;
+      margin: 0 auto;
+      bottom: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+    }
+
+    .position .title {
+      width: 30%;
+      padding-top: 5px;
+      padding-bottom: 15px;
+      background-color: rgba(35, 35, 35, 0.5);
+      text-align: center;
+      color: #fff;
+    }
+
+    .position .title:hover {
+      cursor: pointer;
+      background-color: rgba(155, 155, 200, 0.5);
+    }
+
+    .wrapper .position .selected {
+      background-color: rgba(255, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="inner">
+      <img src="./img/dog.jpg" class="show">
+      <img src="./img/cat.jpg">
+      <img src="./img/girl.jpg">
+      <img src="./img/koala.jpg">
+      <img src="./img/silhouette.jpg">
+      <img src="./img/moon.jpg">
+    </div>
+    <div class="position">
+      <div class="title selected">旺财</div>
+      <div class="title">阿福</div>
+      <div class="title">小女孩</div>
+      <div class="title">树袋熊</div>
+      <div class="title">剪影</div>
+      <div class="title">月色</div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    let picTitle = document.getElementsByClassName('title');
+    let picBox = document.getElementsByClassName('inner')[0].getElementsByTagName('img');
+    let now = 0;
+    let next = 0;
+    let timer = null;
+    let SPEED = 4000;
+    let switchTo = function(index) {   
+      picTitle[now].classList.remove('selected');  //定位红色小圆点移除
+      picTitle[index].classList.add('selected');   //定位红色小圆点添加
+      picBox[now].style.opacity = 0;
+      picBox[index].style.opacity = 1;
+      now = index;
+    }
+    let jumpTo = function(index) {
+      clearInterval(timer);
+      switchTo(index);
+      move();
+    }
+    let move = function(){
+      timer = setInterval(function(){
+        switchTo(now>=5?0:now+1);
+      },SPEED);
+    }
+    move();
+    for (let i = 0; i < picTitle.length; i++) {
+      picTitle[i].onclick = function() {
+        jumpTo(i);
+      };
+    };
+  </script>
+</body>
+</html>

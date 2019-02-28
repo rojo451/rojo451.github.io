@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>水平幻灯片</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    .wrapper {
+      width: 960px;
+      height: 640px;
+      margin: 150px auto;
+      overflow: hidden;
+      position: relative;
+      user-select: none;
+    }
+
+    .wrapper button {
+      width: 8%;
+      height: 100%;
+      position: absolute;
+      top: 0px;
+      outline: none;
+      border: 0px;
+      background-color: #333;
+      opacity: 0;
+    }
+
+    .wrapper button:hover {
+      opacity: 0.35;
+    }
+
+    button.to-left {
+      left: 0px;
+    }
+
+    button.to-right {
+      right: 0px;
+    }
+
+    .inner {
+      font-size: 0px;
+      width: 5760px;
+      height: 640px;
+      /*position: absolute;*/
+      /*top: 0px;*/
+      margin-left: 0px;
+      transition: margin 0.8s;
+      user-select: none;
+    }
+
+    .inner img {
+      width: 960px;
+      height: 640px;
+      display: inline-block;
+    }
+
+    .position {
+      position: relative;
+      margin: 0 auto;
+      bottom: 20px;
+      width: 100px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .position .circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .position .circle:hover {
+      cursor: pointer;
+    }
+
+    .wrapper .position .selected {
+      background-color: #f00;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <button class="to-left"></button>
+    <button class="to-right"></button>
+    <div class="inner">
+      <img src="./img/dog.jpg">
+      <img src="./img/cat.jpg">
+      <img src="./img/girl.jpg">
+      <img src="./img/koala.jpg">
+      <img src="./img/silhouette.jpg">
+      <img src="./img/moon.jpg">
+    </div>
+    <div class="position">
+      <div class="circle selected"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    let picCircle = document.getElementsByClassName('circle');
+    let now = 0;
+    let next = 0;
+    let timer = null;
+    let SPEED = 4000;
+    let switchTo = function(index) {
+      let picBox = document.getElementsByClassName('inner');
+      picCircle[now].classList.remove('selected');  //定位红色小圆点移除
+      picCircle[index].classList.add('selected');   //定位红色小圆点添加
+      picBox[0].style.marginLeft = -(index)*960 +'px';
+      now = index;
+    }
+    let jumpTo = function(index) {
+      clearInterval(timer);
+      switchTo(index);
+      move();
+    }
+    let move = function(){
+      timer = setInterval(function(){
+        switchTo(now>=5?0:now+1);
+      },SPEED);
+    }
+    move();
+    document.getElementsByClassName('to-left')[0].onclick = function() {
+      jumpTo(now<=0?5:now-1);
+    };
+    document.getElementsByClassName('to-right')[0].onclick = function() {
+      jumpTo(now>=5?0:now+1);
+    };
+    for (let i = 0; i < picCircle.length; i++) {
+      picCircle[i].onclick = function() {
+        jumpTo(i);
+      };
+    };
+  </script>
+</body>
+</html>
