@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DIV属性控制</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    .btn-group {
+      text-align: center;
+    }
+    button {
+      padding: 0.1rem 2rem;
+      border-radius: 10px 10px;
+      border: 0px;
+      background-color: #bbdefb;
+      font-size: 16px;
+      color: #fff;
+      outline: none;
+      cursor: pointer;
+    }
+    button:active {
+      background-color: #54aff9;
+
+    }
+    #box {
+      margin: 20px auto 0;
+      width: 100px;
+      height: 100px;
+      background-color: #54aff9;
+    }
+    .show {
+      display: block;
+    }
+    .hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="btn-group">
+    <button id="bigger">变大</button>
+    <button id="wider">变宽</button>
+    <button id="higher">变高</button>
+    <button id="change-color">变色</button>
+    <button id="show-hide">隐藏</button>
+    <button id="reset">恢复</button>
+  </div>
+  <div id="box"></div>
+
+  <script type="text/javascript">
+    let oBox = document.getElementById('box');
+    document.getElementById('bigger').onclick = function(){
+      let width = parseFloat(getComputedStyle(oBox).width);
+      let height = parseFloat(getComputedStyle(oBox).height);
+      if (width>=800) { alert("太大啦"); }
+      else {
+        oBox.style.width = width + 100 + 'px';
+        oBox.style.height = height + 100 + 'px';
+      }
+    };
+    document.getElementById('wider').onclick = function() {
+      let width = parseFloat(getComputedStyle(oBox).width);
+      if (width>=800) { alert("太胖啦"); }
+      else {
+        oBox.style.width = width + 100 + 'px';
+      }
+    };
+    document.getElementById('higher').onclick = function() {
+      let height = parseFloat(getComputedStyle(oBox).height);
+      if (height>=800) { alert("太高啦"); }
+      else {
+        oBox.style.height = height + 100 + 'px';
+      }
+    };
+    document.getElementById('change-color').onclick = function() {
+      let arr = [Math.random()*255, Math.random()*255, Math.random()*255];
+      oBox.style.backgroundColor = `rgb(${arr[0]}, ${arr[1]}, ${arr[2]})`;
+    };
+    document.getElementById('show-hide').onclick = function() {
+      let arr = [];
+      if (getComputedStyle(oBox).display!=='none') {
+        arr = ['show', 'hide'];
+      }
+      else {
+        arr = ['hide', 'show'];
+      }
+      oBox.classList.remove(arr[0]);
+      oBox.classList.add(arr[1]);
+    };
+    document.getElementById('reset').onclick = function() {
+      oBox.style.backgroundColor = '#54aff9';
+      oBox.style.width = '100px';
+      oBox.style.height = '100px';
+      oBox.classList.remove("hide");
+      oBox.classList.add("show");
+    };
+  </script>
+</body>
+</html>
